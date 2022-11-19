@@ -1,11 +1,9 @@
-const bcrypt = require("bcrypt");  
+const bcrypt = require("bcrypt");
 
-exports.hashpassword = (password) =>
-{
-    return bcrypt.hashSync(password,8);
+exports.hashpassword = (password) => {
+    return bcrypt.hashSync(password, 8);
 }
 
-exports.compare = (passwordA,passwordB) =>
-{
-    return bcrypt.compareSync(passwordA,passwordB);
+exports.compare = (passwordA, passwordB) => {
+    return bcrypt.compareSync(passwordA, passwordB);
 }

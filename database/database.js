@@ -6,7 +6,7 @@ const dp = mysql.createConnection({
     database: 'blog',
 })
 
-dp.connect(function(err) {
+dp.connect(function (err) {
     if (err) {
         console.error('error connecting: ' + err.stack);
         return;
