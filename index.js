@@ -15,4 +15,3 @@ app.use(session({
 }));
 app.use('/',require('./routes/pages.js'));
 app.use('/',require('./routes/myHomePage'));
-router.use('/authentication', require('./authentication'));
