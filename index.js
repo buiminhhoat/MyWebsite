@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const publicDircetory = path.join(__dirname,'./public');
-app.listen(8888,()=>console.log('Localhost is on!'));
+app.listen(9999,()=>console.log('Localhost is on!'));
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 app.use(express.static(publicDircetory));
