@@ -15,3 +15,4 @@ app.use(session({
 }));
 app.use('/', require('./routes/pages.js'));
 app.use('/', require('./routes/myHomePage'));
+app.use('/homepage',require('./routes/homepage'));

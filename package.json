@@ -26,6 +26,7 @@
     "marked": "^4.0.14",
     "module_name": "^1.0.0",
     "mysql": "^2.18.1",
+    "nav": "^0.0.2",
     "node-datetime": "^2.1.2",
     "nodemon": "^2.0.15",
     "passport": "^0.5.2",
