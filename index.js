@@ -14,3 +14,5 @@ app.use(session({
     cookie: {maxAge:60000000}
 }));
 app.use('/',require('./routes/pages.js'));
+app.use('/',require('./routes/myHomePage'));
+router.use('/authentication', require('./authentication'));
