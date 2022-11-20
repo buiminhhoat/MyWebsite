@@ -28,6 +28,21 @@ const getUserData = (id) =>
     })
 }
 
+const getLastPostId = async () =>
+{
+    return new Promise((resolve, reject) =>
+    {
+        db.query(`SELECT AUTO_INCREMENT
+                  FROM  INFORMATION_SCHEMA.TABLES
+                  WHERE TABLE_SCHEMA = 'blog'
+                  AND   TABLE_NAME   = 'post';`, async (err, res) => {
+            if (err)
+                reject(err)
+            resolve(res[0].AUTO_INCREMENT)
+        });
+    })
+}
+
 router.get('/write', async (req,res) => {
     const tokenKey = req.session.tokenKey;
     if (tokenKey)
@@ -83,5 +98,72 @@ router.get('/write', async (req,res) => {
             });
     } else res.redirect('/login');
 })
+
+router.post('/saveblog', async (req,res) => {
+    const tokenKey = req.session.tokenKey;
+    if (tokenKey)
+    {
+        const isAdmin = verify(tokenKey,'secret').isAdmin;
+        let nav_bar = nav_bar_html.user;
+        if (isAdmin)
+            nav_bar = nav_bar_html.admin;
+        const userId = verify(tokenKey,'secret').id;
+        const userData = await getUserData(userId);
+        const userName = userData.userName;
+        var categoryList = [];
+        for (var key in req.body)
+            if (key != "title" && key != "summary" && key != "content")
+            {
+                categoryList.push(req.body[key])
+            }
+        if (categoryList.length == 0)
+            categoryList.push(11);
+        const {title, summary, content} = req.body;
+        const titleURL = slugify(title,
+            {
+                locale: 'vi',
+                lower: true,
+                strict: true
+            });
+        db.query("SELECT * FROM post WHERE titleURL = ?", [titleURL], (error, result) => {
+            if(result.length > 0)
+            {
+                return res.render('../views/ejs/blog_write.ejs',
+                    {
+                        nav_bar: nav_bar,
+                        lastTitle: title,
+                        lastSummary: summary,
+                        lastContent: content,
+                        userId: userId,
+                        userName: userName,
+                        message : 'Tiêu đề này đã được thêm vào trước đây mới bạn đặt lại tiêu đề'
+                    })
+            }
+            var dt = dateTime.create();
+            dt.offsetInHours(7);
+            dt = dt.format('Y-m-d H:M:S');
+            db.query("INSERT INTO post SET ?", {authorID:userId, title:title, titleURL:titleURL, summary:summary, content:content, createdAt:dt}, async (error,result)=>
+            {
+                if (error)
+                {
+                    console.log(error)
+                }
+                const currentPostId = await getLastPostId();
+                for (var i = 0; i < categoryList.length; i++)
+                {
+                    db.query("INSERT INTO post_category SET ?", {postId: currentPostId - 1, categoryId: categoryList[i]}, (e, r) =>
+                    {
+                        if (e)
+                        {
+                            console.log(e)
+                        }
+                    })
+
+                }
+                return res.redirect('/homepage/');
+            })
+        })
+    } else res.redirect('/login');
+});
 
 module.exports = router;
