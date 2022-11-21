@@ -13,7 +13,6 @@ const DOMPurify = createDOMPurify(new JSDOM('').window);
 const nav_bar_html = require('../fs/nav')
 const blog_category = require('../fs/category')
 const slugify = require('slugify')
-
 const getUserData = (id) =>
 {
     return new Promise((resolve, reject) =>
@@ -28,6 +27,69 @@ const getUserData = (id) =>
     })
 }
 
+const getAllComments = async (postId) =>
+{
+    return new Promise((resolve, reject) =>
+    {
+        db.query("SELECT * FROM post_comment WHERE postId = ? ORDER BY createdAt", [postId], async (err, res) => {
+            if (err)
+                reject(err)
+            resolve(res)
+        });
+    })
+}
+
+const buildCommentSection = async (postId, postUrl) =>
+{
+    const commentsRaw = await getAllComments(postId);
+    const commentList = {}
+    const comments = {}
+    for (let i = 0; i < commentsRaw.length; i++)
+        comments[commentsRaw[i].id] = commentsRaw[i];
+    for (let i = 0; i < commentsRaw.length; i++)
+        commentList[commentsRaw[i].id] = []
+    let rootComments = [];
+    for (let i = 0; i < commentsRaw.length; i++)
+    {
+        if (commentsRaw[i].parentId)
+            commentList[commentsRaw[i].parentId].push(commentsRaw[i].id);
+        else
+            rootComments.push(commentsRaw[i].id);
+    }
+    let html = "";
+    for (var id in rootComments)
+    {
+        html += await dfsComment(rootComments[id], commentList, comments, 0, postUrl);
+    }
+    return html;
+}
+
+const dfsComment = async (id, commentList, comments, height, postUrl) =>
+{
+    const userData = await getUserData(comments[id].userId);
+    const userName = userData.userName;
+    const userEmail = userData.email;
+    let html =
+        `
+    <div class="card mt-2" style="margin-left:${30 + height * 50}px; margin-right:30px; margin-bottom:10px">
+        <form method="POST" action="${postUrl}/comment/${comments[id].id}">
+            <div class="card-body">
+                <div class="username"> ${userName} - <a href="/users/${comments[id].userId}"> ${userEmail} </a> </div>
+                <div class="time"> ${comments[id].createdAt.toISOString().replace('T', ' ').substr(0, 19)} </div>
+                <div class="user-comment"> ${comments[id].content} </div>
+                <div class="reply"> <a href="javascript:void(0)" onclick="reply(this)"> REPLY </a> </div>
+                
+            </div>
+        </form>
+    </div>
+    `
+    for (var i in commentList[id])
+    {
+        html += await dfsComment(comments[commentList[id][i]].id, commentList, comments, height + 1, postUrl);
+    }
+    return html;
+}
+
 const getLastPostId = async () =>
 {
     return new Promise((resolve, reject) =>
@@ -39,6 +101,45 @@ const getLastPostId = async () =>
             if (err)
                 reject(err)
             resolve(res[0].AUTO_INCREMENT)
+        });
+    })
+}
+
+const getCategoryOfPost = (id) =>
+{
+    return new Promise((resolve, reject) =>
+    {
+        db.query(
+            `
+            SELECT category.title
+            FROM category
+            WHERE EXISTS
+            (
+                SELECT post_category.postId
+                FROM post_category
+                WHERE post_category.postId = ${id} AND category.id = post_category.categoryId
+            )
+        `
+            , (err, data) => {
+                if (err)
+                {
+                    reject(err)
+                }
+                resolve(data)
+            });
+    })
+}
+
+const countNumberComments = (postId) =>
+{
+    return new Promise((resolve, reject) =>
+    {
+        db.query('SELECT * FROM post_comment WHERE postId = ?', [postId], (err, data) => {
+            if (err)
+            {
+                reject(err)
+            }
+            resolve(data.length)
         });
     })
 }
@@ -165,5 +266,56 @@ router.post('/saveblog', async (req,res) => {
         })
     } else res.redirect('/login');
 });
+
+router.get('/view/:titleURL', async (req, res) =>
+{
+    const tokenKey = req.session.tokenKey;
+    let nav_bar = nav_bar_html.oth;
+    let userName = "";
+    if (tokenKey)
+    {
+        const isAdmin = verify(tokenKey,'secret').isAdmin;
+        const userId = verify(tokenKey,'secret').id;
+        const userData = await getUserData(userId);
+        if (isAdmin)
+            nav_bar = nav_bar_html.admin;
+        else
+            nav_bar = nav_bar_html.user;
+        userName =
+            `
+        <i class="fa-solid fa-user"></i>
+        <a href="/users/${userId}" class="usersection"> ${userData.userName}</a>
+        `
+    }
+    const {titleURL} = req.params;
+    db.query("SELECT * FROM post WHERE titleURL = ?", [titleURL], async (error, result) => {
+        if (result.length <= 0)
+        {
+            return res.status(404).redirect('/homepage')
+        }
+
+        const user = await getUserData(result[0].authorId);
+        const commentSection = await buildCommentSection(result[0].id, titleURL);
+        var categoryList = [];
+        const allCategories = await getCategoryOfPost(result[0].id);
+        for (var i = 0; i < allCategories.length; i++)
+            categoryList.push(allCategories[i].title)
+        const numComments = await countNumberComments(result[0].id);
+        return res.render('../views/ejs/blog.ejs', {
+            nav_bar: nav_bar,
+            userName: userName,
+            title: result[0].title,
+            category: categoryList.join(', '),
+            summary: result[0].summary,
+            content: DOMPurify.sanitize(marked.parse(result[0].content)),
+            authorId: result[0].authorId,
+            authorEmail: user.email,
+            createdAt: result[0].createdAt.toISOString().replace('T', ' ').substr(0, 19),
+            numComments: numComments,
+            commentSection: commentSection,
+            postUrl: titleURL
+        })
+    })
+})
 
 module.exports = router;
