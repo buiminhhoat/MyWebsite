@@ -27,6 +27,20 @@ const getUserData = (id) =>
     })
 }
 
+const getPostData = async (url) =>
+{
+    return new Promise((resolve, reject) =>
+    {
+        db.query('SELECT * FROM post WHERE titleUrl = ?', [url], (err, data) => {
+            if (err)
+            {
+                reject(err)
+            }
+            resolve(data[0])
+        });
+    })
+}
+
 const getAllComments = async (postId) =>
 {
     return new Promise((resolve, reject) =>
@@ -316,6 +330,30 @@ router.get('/view/:titleURL', async (req, res) =>
             postUrl: titleURL
         })
     })
+})
+
+router.post('/view/:postUrl/comment', async (req, res) =>
+{
+    const {commentContent} = req.body;
+    const {postUrl} = req.params;
+    const postData = await getPostData(postUrl);
+    const tokenKey = req.session.tokenKey;
+    if (tokenKey)
+    {
+        var userId = verify(tokenKey,'secret').id;
+        var dt = dateTime.create();
+        dt.offsetInHours(7);
+        dt = dt.format('Y-m-d H:M:S');
+        db.query('INSERT INTO post_comment SET ?', {postId:postData.id, userId:userId, content:commentContent, createdAt:dt}, (error, result) =>
+        {
+            if (error)
+            {
+                console.log(error);
+            }
+            return res.redirect(`/blog/view/${postUrl}`);
+        })
+    } else
+        res.redirect('/login');
 })
 
 module.exports = router;
