@@ -356,4 +356,96 @@ router.post('/view/:postUrl/comment', async (req, res) =>
         res.redirect('/login');
 })
 
+router.post('/view/:postUrl/comment/:parentId', async (req, res) =>
+{
+    const {commentContent} = req.body;
+    const {postUrl, parentId} = req.params;
+    const postData = await getPostData(postUrl);
+    const tokenKey = req.session.tokenKey;
+    if (tokenKey)
+    {
+        const userId = verify(tokenKey,'secret').id;
+        var dt = dateTime.create();
+        dt.offsetInHours(7);
+        dt = dt.format('Y-m-d H:M:S');
+        db.query('INSERT INTO post_comment SET ?', {postId:postData.id, userId:userId, parentId:parentId, content:commentContent, createdAt:dt}, (error, result) =>
+        {
+            if (error)
+            {
+                console.log(error);
+            }
+            return res.redirect(`/blog/view/${postUrl}`);
+        })
+    } else
+        res.redirect('/login');
+})
+
+router.get('/delete/:postUrl', async (req, res) =>
+{
+    const tokenKey = req.session.tokenKey;
+    if (tokenKey)
+    {
+        const isAdmin = verify(tokenKey,'secret').isAdmin;
+        const userId = verify(tokenKey,'secret').id;
+        const {postUrl} = req.params;
+        const postData = await getPostData(postUrl);
+        if (!isAdmin && userId != postData.authorId)
+            res.redirect('/homepage/');
+        db.query('DELETE FROM post WHERE titleURL = ?', [postUrl], (err,result)=>{
+            if(err) console.log(err);
+        });
+        const type = req.query.type;
+        if (type == 0)
+            res.redirect('/homepage/');
+        else
+            res.redirect(`/users/${type}`);
+    } else
+        res.redirect('/login');
+})
+
+router.post('/update/:postUrl', async (req, res) =>
+{
+    const tokenKey = req.session.tokenKey;
+    if (tokenKey)
+    {
+        const isAdmin = verify(tokenKey,'secret').isAdmin;
+        const userId = verify(tokenKey,'secret').id;
+        const {postUrl} = req.params;
+        const postData = await getPostData(postUrl);
+        if (!isAdmin && userId != postData.authorId)
+            res.redirect('/homepage/');
+        const {summary, content} = req.body;
+        db.query(`UPDATE post SET ? WHERE titleURL = '${postUrl}'`, {summary:summary, content:content}, (err,result) => {
+            if(err) console.log(err);
+        });
+        res.redirect(`/blog/view/${postUrl}`);
+    } else
+        res.redirect('/login');
+})
+
+router.get('/edit/:postUrl', async (req, res) =>
+{
+    const tokenKey = req.session.tokenKey;
+    if (tokenKey)
+    {
+        const isAdmin = verify(tokenKey,'secret').isAdmin;
+        const userId = verify(tokenKey,'secret').id;
+        const {postUrl} = req.params;
+        const postData = await getPostData(postUrl);
+        if (!isAdmin && userId != postData.authorId)
+            res.redirect('/homepage/');
+        const userData = await getUserData(userId);
+        return res.render('../views/ejs/blog_edit.ejs',
+            {
+                userId: userId,
+                userName: userData.userName,
+                postUrl: postUrl,
+                postTitle: postData.title,
+                oriSummary: postData.summary,
+                oriContent: postData.content
+            })
+    } else
+        res.redirect('/login');
+})
+
 module.exports = router;
