@@ -3,6 +3,10 @@
       Buttons
 ------------------------
 */
+.margin-top{
+    margin-top: 60px;
+}
+
 .switch-button, .control-button{
     cursor: pointer;
     display: block;

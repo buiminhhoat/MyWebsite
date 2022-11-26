@@ -6,15 +6,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/css/bar.css" media="screen" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+
     <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
-<div class="container">
+
+<nav class="navbar navbar-default navbar-fixed-top" >
+    <div>
+        <div class="row">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">My Blogs</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav main-nav navbar-right ">
+                    <li><a class="navactive color_animation" href="/">HOME</a></li>
+                    <li><a class="color_animation" href="/login">SIGN IN</a></li>
+                    <li><a class="color_animation" href="/register">SIGN UP</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container margin-top">
     <!-- Sign Up -->
     <div class="container__form container--signup">
         <form action="/authentication/register" method="POST" class="form" id="form1">
             <h2 class="form__title">Sign Up</h2>
-            <input type="userName" placeholder="User" class="input" id="userName" name="userName" maxlength="50" required/>
+            <input type="username" placeholder="User" class="input" id="userName" name="userName" maxlength="50" required/>
             <input type="email" placeholder="Email" class="input" id="email" name="email" maxlength="100" required />
             <input type="password" placeholder="Password" class="input" id="password" name="password" minlength="6" required />
             <input type="password" placeholder="Password Confirm" class="input" id="passwordconfirm" name="passwordconfirm" required />
