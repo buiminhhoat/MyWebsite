@@ -1,0 +1,15 @@
+.category-row :after {
+    display: table;
+    clear: both;
+}
+
+.category-row {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.category-column {
+    float: left;
+    width: 25%;
+    margin-bottom: 20px;
+}
