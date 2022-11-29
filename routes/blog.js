@@ -295,10 +295,13 @@ router.get('/view/:titleURL', async (req, res) =>
             nav_bar = nav_bar_html.admin;
         else
             nav_bar = nav_bar_html.user;
-        userName =
-            `
-        <i class="fa-solid fa-user"></i>
-        <a href="/users/${userId}" class="usersection"> ${userData.userName}</a>
+        userName = `
+            <li style= "display: inline-flex">
+                <a href="/users/${userId}" class="color_animation" style="color: white">
+                    <i class="fa-solid fa-user"></i>
+                    ${userData.userName}
+                </a>
+            <li>
         `
     }
     const {titleURL} = req.params;

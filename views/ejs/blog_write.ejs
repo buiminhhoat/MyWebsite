@@ -43,10 +43,10 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav main-nav navbar-right ">
-                        <li><a class="navactive color_animation" href="/homepage">HOME</a></li>
-                        <li><a class="color_animation" href="/blog/write">WRITE</a></li>
-                        <li><a class="color_animation" href="/logout">LOG OUT</a></li>
-
+                        <%- nav_bar %>
+<!--                        <li><a class="navactive color_animation" href="/homepage">HOME</a></li>-->
+<!--                        <li><a class="color_animation" href="/blog/write">WRITE</a></li>-->
+<!--                        <li><a class="color_animation" href="/logout">LOG OUT</a></li>-->
                         <li style= "display: inline-flex">
                             <a href="/users/<%= userId %>" class="color_animation">
                                 <i class="fa-solid fa-user"></i>
@@ -73,14 +73,14 @@
         <% if (typeof message != 'undefined') { %>
             <h4 class="alert alert-danger mt-4"><%= message %></h4>
         <% } %>
-        
+
         <div class="card-body">
             <form action="/blog/saveblog" method="POST" onsubmit="test()">
                 <div style="margin-bottom: 20px">
                     <label for="Title" class="w3-large">Title</label>
                     <input type="text" class="form-control" id="title" name="title" value="<%= lastTitle %>" required>
                 </div>
-                
+
                 <div style="margin-bottom: 20px">
                     <label for="Summary" class="w3-large">Summary</label>
                     <input type="text" class="form-control" id="summary" name="summary" value="<%= lastSummary %>" required>
@@ -94,10 +94,10 @@
                 <label for="Content" class="w3-large">Category</label>
 
                 <div class="category-row">
-                    <div class="category-column"> 
+                    <div class="category-column">
                         <%- category_column_1 %>
                     </div>
-                    <div class="category-column"> 
+                    <div class="category-column">
                         <%- category_column_2 %>
                     </div>
                     <div class="category-column">
