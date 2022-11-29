@@ -78,17 +78,17 @@
             <form action="/blog/saveblog" method="POST" onsubmit="test()">
                 <div style="margin-bottom: 20px">
                     <label for="Title" class="w3-large">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" value="<%= lastTitle %>" required>
+                    <input type="text" class="form-control" id="title" name="title" value="<%= lastTitle %>" style="font-size: 15px" required>
                 </div>
 
                 <div style="margin-bottom: 20px">
                     <label for="Summary" class="w3-large">Summary</label>
-                    <input type="text" class="form-control" id="summary" name="summary" value="<%= lastSummary %>" required>
+                    <input type="text" class="form-control" id="summary" name="summary" value="<%= lastSummary %>" style="font-size: 15px" required>
                 </div>
 
                 <div style="margin-bottom: 20px">
                     <label for="Content" class="w3-large">Content (Markdown format) </label>
-                    <textarea class="form-control" id="content" name ="content"  rows="20" required><%= lastContent %></textarea>
+                    <textarea class="form-control" id="content" name ="content"  rows="20" style="font-size: 15px" required><%= lastContent %></textarea>
                 </div>
 
                 <label for="Content" class="w3-large">Category</label>
