@@ -186,8 +186,12 @@ router.get('/:userId/search', async (req, res) =>
             nav_bar = nav_bar_html.user;
         userSection =
             `
-        <i class="fa-solid fa-user"></i>
-        <a href="/users/${id}" class="usersection"> ${userData.userName}</a>
+        <li style= "display: inline-flex">
+            <a href="/users/${id}" class="color_animation">
+                <i class="fa-solid fa-user"></i>
+                ${userData.userName}
+            </a>
+        <li>
         `
     }
     const {userId} = req.params;
