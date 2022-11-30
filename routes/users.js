@@ -88,17 +88,18 @@ router.get('/:userId', async (req, res) =>
     const authorEmail = userDataTem.email;
     const userProfile = (userDataTem.profile ? userDataTem.profile : '')
     const userNumBlogs = await countNumberBlogs(userId);
+
     const userDataSection = `
     <div class="row">
         
-        <div class="column left" style="margin-top: 60px">
+        <div class="column left" style="margin-top: 50px">
             <i class="fa-solid fa-user fa-5x"></i>
         </div>
-        <div class="column right">
-            <h3> ${userDataTem.userName} </h3> 
-            <h5> ${userDataTem.email} </h5> 
-            <h6> Giới thiệu: ${userProfile}</h6>
-            <h6> Số lượng blog đã viết: ${userNumBlogs}</h6>
+        <div class="column right" style="line-height: 33px">
+            <div style="font-weight: bold; margin-bottom: 5px; font-size: 27px"> ${userDataTem.userName} </div> 
+            <div style="font-weight: bold; font-size: 19px">Giới thiệu:</div>
+            <div style="font-weight: bold; font-size: 17px; color: #1E7EC8"> ${userDataTem.email} </div> 
+            <div style="font-size: 17px;"> Số lượng blog đã viết: ${userNumBlogs}</div>
         </div>
     </div>
     `

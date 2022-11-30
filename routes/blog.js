@@ -224,6 +224,37 @@ router.post('/saveblog', async (req,res) => {
         const userId = verify(tokenKey,'secret').id;
         const userData = await getUserData(userId);
         const userName = userData.userName;
+
+        let category_column_1 = '', category_column_2 = '', category_column_3 = '', category_column_4 = '';
+        for (let i = 0; i <= 1; i++)
+        {
+            category_column_1 += `
+                <input type="checkbox" id="${blog_category[i].titleURL}" name="${blog_category[i].titleURL}" value="${blog_category[i].id}">
+                <label for="${blog_category[i].titleURL}"> ${blog_category[i].title} </label><br>
+                `
+        }
+        for (let i = 2; i <= 3; i++)
+        {
+            category_column_2 += `
+                <input type="checkbox" id="${blog_category[i].titleURL}" name="${blog_category[i].titleURL}" value="${blog_category[i].id}">
+                <label for="${blog_category[i].titleURL}"> ${blog_category[i].title} </label><br>
+                `
+        }
+        for (let i = 4; i <= 6; i++)
+        {
+            category_column_3 += `
+                <input type="checkbox" id="${blog_category[i].titleURL}" name="${blog_category[i].titleURL}" value="${blog_category[i].id}">
+                <label for="${blog_category[i].titleURL}"> ${blog_category[i].title} </label><br>
+                `
+        }
+        for (let i = 7; i <= 9; i++)
+        {
+            category_column_4 += `
+                <input type="checkbox" id="${blog_category[i].titleURL}" name="${blog_category[i].titleURL}" value="${blog_category[i].id}">
+                <label for="${blog_category[i].titleURL}"> ${blog_category[i].title} </label><br>
+                `
+        }
+
         var categoryList = [];
         for (var key in req.body)
             if (key != "title" && key != "summary" && key != "content")
@@ -250,6 +281,10 @@ router.post('/saveblog', async (req,res) => {
                         lastContent: content,
                         userId: userId,
                         userName: userName,
+                        category_column_1: category_column_1,
+                        category_column_2: category_column_2,
+                        category_column_3: category_column_3,
+                        category_column_4: category_column_4,
                         message : 'Tiêu đề này đã được thêm vào trước đây mới bạn đặt lại tiêu đề'
                     })
             }
