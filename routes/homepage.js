@@ -63,8 +63,8 @@ router.get('/', async (req,res) =>
                 if (isAdmin || userId == ob.authorId)
                     extraButtonHTML =
                     `
-                    <a href="/blog/edit/${ob.titleURL}" class="btn btn-warning"> Edit </a>
-                    <button class="btn btn-danger" onclick="confirmDelete('/blog/delete/${ob.titleURL}')"> Delete </button>
+                    <a href="/blog/edit/${ob.titleURL}" class="btn btn-warning" style="font-size: 16px; text-decoration: none"> Edit </a>
+                    <button class="btn btn-danger" style="font-size: 16px; text-decoration: none" onclick="confirmDelete('/blog/delete/${ob.titleURL}')"> Delete </button>
                     `;
                 else
                     extraButtonHTML = ``;
@@ -73,19 +73,19 @@ router.get('/', async (req,res) =>
                 for (var i = 0; i < allCategories.length; i++)
                     categoryList.push(allCategories[i].title)
                 return `
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <h4 class="card-title"> ${ob.title} - <a href="/users/${ob.authorId}">${authorEmail}</a> </h4>
+                <div class="card" style="margin-bottom: 20px; font-size: 16px">
+                    <div class="card-body" style="margin-left: 10px; margin-bottom: 15px; line-height: 25px">
+                        <h3 class="card-title"> ${ob.title} - <a href="/users/${ob.authorId}" style="color: #1E7EC8">${authorEmail}</a> </h3>
                         <div class="card-subtitle text-muted mb-2">
                             ${ob.createdAt.toISOString().replace('T', ' ').substr(0, 19)}
                         </div>
-                        <div class="card-text mb-2">
+                        <div class="card-text">
                             <strong> Summary: </strong> ${ob.summary}
                         </div>
-                        <div class="card-text mb-2">
+                        <div class="card-text" style="margin-bottom: 10px">
                             <strong> Category: </strong> ${categoryList.join(', ')}
                         </div>
-                        <a href="/blog/view/${ob.titleURL}" class="btn btn-primary"> Read More </a>
+                        <a href="/blog/view/${ob.titleURL}" class="btn btn-primary" style="font-size: 16px; text-decoration: none"> Read More </a>
                 `
                 + extraButtonHTML
                 +
@@ -180,8 +180,8 @@ router.get('/search', async (req,res) =>
                 if (isAdmin || userId == ob.authorId)
                     extraButtonHTML =
                     `
-                    <a href="/blog/edit/${ob.titleURL}" class="btn btn-warning"> Edit </a>
-                    <button class="btn btn-danger" onclick="confirmDelete('/blog/delete/${ob.titleURL}')"> Delete </button>
+                    <a href="/blog/edit/${ob.titleURL}" class="btn btn-warning" style="font-size: 16px; text-decoration: none"> Edit </a>
+                    <button class="btn btn-danger" style="font-size: 16px; text-decoration: none" onclick="confirmDelete('/blog/delete/${ob.titleURL}')"> Delete </button>
                     `;
                 else
                     extraButtonHTML = ``;
@@ -190,22 +190,22 @@ router.get('/search', async (req,res) =>
                 for (var i = 0; i < allCategories.length; i++)
                     categoryList.push(allCategories[i].title)
                 return `
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <h4 class="card-title"> ${ob.title} - <a href="/users/${ob.authorId}">${authorEmail}</a> </h4>
+                <div class="card" style="margin-bottom: 20px; font-size: 16px">
+                    <div class="card-body" style="margin-left: 10px; margin-bottom: 15px; line-height: 25px">
+                        <h3 class="card-title"> ${ob.title} - <a href="/users/${ob.authorId}" style="color: #1E7EC8">${authorEmail}</a> </h3>
                         <div class="card-subtitle text-muted mb-2">
                             ${ob.createdAt.toISOString().replace('T', ' ').substr(0, 19)}
                         </div>
-                        <div class="card-text mb-2">
+                        <div class="card-text">
                             <strong> Summary: </strong> ${ob.summary}
                         </div>
-                        <div class="card-text mb-2">
+                        <div class="card-text" style="margin-bottom: 10px">
                             <strong> Category: </strong> ${categoryList.join(', ')}
                         </div>
-                        <a href="/blog/view/${ob.titleURL}" class="btn btn-primary"> Read More </a>
+                        <a href="/blog/view/${ob.titleURL}" class="btn btn-primary" style="font-size: 16px; text-decoration: none"> Read More </a>
                 `
-                + extraButtonHTML
-                +
+                    + extraButtonHTML
+                    +
                 `
                     </div>
                 </div>

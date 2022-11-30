@@ -1,64 +1,64 @@
-nav {
-    background-color: #25952a;
-    color: #fff;
-    padding: 30px 60px;
-    display: flex;
-    /* justify-content: space-between; */
-}
+/*nav {*/
+/*    background-color: #25952a;*/
+/*    color: #fff;*/
+/*    padding: 30px 60px;*/
+/*    display: flex;*/
+/*    !* justify-content: space-between; *!*/
+/*}*/
 
-nav ul {
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    width: 50%;
-}
+/*nav ul {*/
+/*    margin-left: auto;*/
+/*    margin-right: auto;*/
+/*    display: flex;*/
+/*    width: 50%;*/
+/*}*/
 
-nav ul li {
+/*nav ul li {*/
 
-    margin: 10px;
-    list-style-type: none;
-    width: 30%;
-    height: 40px;
-    background-color: #f1ebf1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
+/*    margin: 10px;*/
+/*    list-style-type: none;*/
+/*    width: 30%;*/
+/*    height: 40px;*/
+/*    background-color: #f1ebf1;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    border-radius: 5px;*/
 
-}
+/*}*/
 
-nav ul li a:hover {
-    text-decoration: none;
-}
+/*nav ul li a:hover {*/
+/*    text-decoration: none;*/
+/*}*/
 
-nav ul li:hover {
-    font-weight: bolder;
-    text-decoration: none;
-}
+/*nav ul li:hover {*/
+/*    font-weight: bolder;*/
+/*    text-decoration: none;*/
+/*}*/
 
-.fa-user {
-    margin-top: 30px;
-    margin-right: 10px;
-}
+/*.fa-user {*/
+/*    margin-top: 30px;*/
+/*    margin-right: 10px;*/
+/*}*/
 
-.usersection {
-    color: black;
-    margin-top: 25px;
-    font-weight: 600;
-}
+/*.usersection {*/
+/*    color: black;*/
+/*    margin-top: 25px;*/
+/*    font-weight: 600;*/
+/*}*/
 
-nav a:hover {
-    text-decoration: none;
-}
+/*nav a:hover {*/
+/*    text-decoration: none;*/
+/*}*/
 
-a {
-    color: #1E7EC8;
-    text-decoration: none;
-}
+/*a {*/
+/*    color: #1E7EC8;*/
+/*    text-decoration: none;*/
+/*}*/
 
-a:hover {
-    text-decoration: underline;
-}
+/*a:hover {*/
+/*    text-decoration: underline;*/
+/*}*/
 
 .btn-danger:hover {
     text-decoration: underline;
