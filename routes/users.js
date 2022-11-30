@@ -75,8 +75,12 @@ router.get('/:userId', async (req, res) =>
             nav_bar = nav_bar_html.user;
         userSection =
             `
-        <i class="fa-solid fa-user"></i>
-        <a href="/users/${id}" class="usersection"> ${userData.userName}</a>
+        <li style= "display: inline-flex">
+            <a href="/users/${id}" class="color_animation">
+                <i class="fa-solid fa-user"></i>
+                ${userData.userName}
+            </a>
+        <li>
         `
     }
     const {userId} = req.params;
@@ -87,11 +91,11 @@ router.get('/:userId', async (req, res) =>
     const userDataSection = `
     <div class="row">
         
-        <div class="column left">
+        <div class="column left" style="margin-top: 60px">
             <i class="fa-solid fa-user fa-5x"></i>
         </div>
         <div class="column right">
-            <h4> ${userDataTem.userName} </h4> 
+            <h3> ${userDataTem.userName} </h3> 
             <h5> ${userDataTem.email} </h5> 
             <h6> Giới thiệu: ${userProfile}</h6>
             <h6> Số lượng blog đã viết: ${userNumBlogs}</h6>
@@ -105,8 +109,8 @@ router.get('/:userId', async (req, res) =>
             if (isAdminBool || userOriginId == userId)
                 extraButtonHTML =
                     `
-                <a href="/blog/edit/${ob.titleURL}" class="btn btn-warning"> Edit </a>
-                <button class="btn btn-danger" onclick="confirmDelete('/blog/delete/${ob.titleURL}', ${userId})"> Delete </button>
+                    <a href="/blog/edit/${ob.titleURL}" class="btn btn-warning" style="font-size: 16px; text-decoration: none"> Edit </a>
+                    <button class="btn btn-danger" style="font-size: 16px; text-decoration: none" onclick="confirmDelete('/blog/delete/${ob.titleURL}')"> Delete </button>
                 `;
             else
                 extraButtonHTML = ``;
@@ -115,20 +119,20 @@ router.get('/:userId', async (req, res) =>
             for (var i = 0; i < allCategories.length; i++)
                 categoryList.push(allCategories[i].title)
             return `
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h4 class="card-title"> ${ob.title} - <a href="/users/${userId}">${authorEmail}</a> </h4>
-                    <div class="card-subtitle text-muted mb-2">
-                        ${ob.createdAt.toISOString().replace('T', ' ').substr(0, 19)}
-                    </div>
-                    <div class="card-text mb-2"> 
+                <div class="card" style="margin-bottom: 20px; font-size: 16px">
+                    <div class="card-body" style="margin-left: 10px; margin-bottom: 15px; line-height: 25px">
+                        <h3 class="card-title"> ${ob.title} - <a href="/users/${ob.authorId}" style="color: #1E7EC8">${authorEmail}</a> </h3>
+                        <div class="card-subtitle text-muted mb-2">
+                            ${ob.createdAt.toISOString().replace('T', ' ').substr(0, 19)}
+                        </div>
+                        <div class="card-text">
                             <strong> Summary: </strong> ${ob.summary}
                         </div>
-                    <div class="card-text mb-2"> 
-                        <strong> Category: </strong> ${categoryList.join(', ')}
-                    </div>
-                    <a href="/blog/view/${ob.titleURL}" class="btn btn-primary"> Read More </a>
-            `
+                        <div class="card-text" style="margin-bottom: 10px">
+                            <strong> Category: </strong> ${categoryList.join(', ')}
+                        </div>
+                        <a href="/blog/view/${ob.titleURL}" class="btn btn-primary" style="font-size: 16px; text-decoration: none"> Read More </a>
+                `
                 + extraButtonHTML
                 +
                 `    
@@ -250,8 +254,8 @@ router.get('/:userId/search', async (req, res) =>
             if (isAdminBool || userOriginId == userId)
                 extraButtonHTML =
                     `
-                <a href="/blog/edit/${ob.titleURL}" class="btn btn-warning"> Edit </a>
-                <button class="btn btn-danger" onclick="confirmDelete('/blog/delete/${ob.titleURL}')"> Delete </button>
+                    <a href="/blog/edit/${ob.titleURL}" class="btn btn-warning" style="font-size: 16px; text-decoration: none"> Edit </a>
+                    <button class="btn btn-danger" style="font-size: 16px; text-decoration: none" onclick="confirmDelete('/blog/delete/${ob.titleURL}')"> Delete </button>
                 `;
             else
                 extraButtonHTML = ``;
@@ -260,20 +264,20 @@ router.get('/:userId/search', async (req, res) =>
             for (var i = 0; i < allCategories.length; i++)
                 categoryList.push(allCategories[i].title)
             return `
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h4 class="card-title"> ${ob.title} - <a href="/users/${userId}">${authorEmail}</a> </h4>
-                    <div class="card-subtitle text-muted mb-2">
-                        ${ob.createdAt.toISOString().replace('T', ' ').substr(0, 19)}
-                    </div>
-                    <div class="card-text mb-2"> 
+                <div class="card" style="margin-bottom: 20px; font-size: 16px">
+                    <div class="card-body" style="margin-left: 10px; margin-bottom: 15px; line-height: 25px">
+                        <h3 class="card-title"> ${ob.title} - <a href="/users/${ob.authorId}" style="color: #1E7EC8">${authorEmail}</a> </h3>
+                        <div class="card-subtitle text-muted mb-2">
+                            ${ob.createdAt.toISOString().replace('T', ' ').substr(0, 19)}
+                        </div>
+                        <div class="card-text">
                             <strong> Summary: </strong> ${ob.summary}
-                    </div>
-                    <div class="card-text mb-2"> 
-                        <strong> Category: </strong> ${categoryList.join(', ')}
-                    </div>
-                    <a href="/blog/view/${ob.titleURL}" class="btn btn-primary"> Read More </a>
-            `
+                        </div>
+                        <div class="card-text" style="margin-bottom: 10px">
+                            <strong> Category: </strong> ${categoryList.join(', ')}
+                        </div>
+                        <a href="/blog/view/${ob.titleURL}" class="btn btn-primary" style="font-size: 16px; text-decoration: none"> Read More </a>
+                `
                 + extraButtonHTML
                 +
                 `    
