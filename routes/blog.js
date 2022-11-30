@@ -85,14 +85,13 @@ const dfsComment = async (id, commentList, comments, height, postUrl) =>
     const userEmail = userData.email;
     let html =
         `
-    <div class="card mt-2" style="margin-left:${30 + height * 50}px; margin-right:30px; margin-bottom:10px">
+    <div class="card" style="margin-left:${30 + height * 50}px; margin-right:30px; margin-bottom:10px">
         <form method="POST" action="${postUrl}/comment/${comments[id].id}">
             <div class="card-body">
-                <div class="username"> ${userName} - <a href="/users/${comments[id].userId}"> ${userEmail} </a> </div>
+                <div class="username"> ${userName} - <a href="/users/${comments[id].userId}" style="color: #1E7EC8"> ${userEmail} </a> </div>
                 <div class="time"> ${comments[id].createdAt.toISOString().replace('T', ' ').substr(0, 19)} </div>
-                <div class="user-comment"> ${comments[id].content} </div>
-                <div class="reply"> <a href="javascript:void(0)" onclick="reply(this)"> REPLY </a> </div>
-                
+                <div class="user-comment" style="margin-bottom: 10px"> ${comments[id].content} </div>
+                <div class="reply"> <a href="javascript:void(0)" onclick="reply(this)" style="color: #1E7EC8; font-size: 15px; text-decoration: none"> REPLY </a> </div>
             </div>
         </form>
     </div>
