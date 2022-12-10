@@ -1,6 +1,4 @@
-# Blog Website
-
-## Introduction
+# Introduction
 
 **Team member**
 - **Member 1:**
