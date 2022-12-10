@@ -23,4 +23,4 @@
 
 # Bài tập lớn CSDL - Blog Website
 
-<img src="public/img/Login_DEMO.png" alt="drawing" height="500"/>
+<img src="public/img/Login_DEMO.png" alt="drawing"/>
