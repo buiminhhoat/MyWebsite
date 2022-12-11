@@ -21,4 +21,9 @@
 
 # Bài tập lớn CSDL - Blog Website
 
+## CSDL
+
+<img src="public/img/MySQL.png" alt="drawing"/>
+
+## Website
 <img src="public/img/Login_DEMO.png" alt="drawing"/>
